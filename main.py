@@ -33,7 +33,7 @@ def scrapeImages(key: str):
     #     except:
     #         break
 
-    # time.sleep(10)
+    time.sleep(10)
 
     images_small = driver.find_elements(By.CSS_SELECTOR, "img.serp-item__thumb")
     images_big = driver.find_elements(By.CSS_SELECTOR, "a.serp-item__link")
@@ -41,6 +41,7 @@ def scrapeImages(key: str):
     print(len(images_big))
     print(len(images_small))
 
+    print("-------------------------------------------")
     
     for i in range(0, max_count + 1):
         # кликаем на большую картинку
@@ -61,7 +62,16 @@ def scrapeImages(key: str):
         }, verify=False)
         with open(img_path_big, "wb") as f:
             f.write(responce_big.content)
-    
+
+        
+        # Скачивание маленькой картинки
+        img_path_small = os.path.join(f"dataset/small/{key}", file_name)
+        response_small = requests.get(img_url_small, headers={
+            "User-Agent" : ua.random,
+        }, verify=False)
+        with open(img_path_small, "wb") as f:
+            f.write(response_small.content)
+            
         # Закрыть окно с большим изображением
         driver.find_element(By.CSS_SELECTOR, 'div.MMViewerModal-Close').click()
 
