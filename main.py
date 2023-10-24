@@ -32,6 +32,8 @@ def scrapeImages(key: str):
 
     time.sleep(10)
 
+    time.sleep(10)
+
     images_small = driver.find_elements(By.CSS_SELECTOR, "img.serp-item__thumb")
     images_big = driver.find_elements(By.CSS_SELECTOR, "a.serp-item__link")
 
