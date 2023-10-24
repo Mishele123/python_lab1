@@ -2515,3 +2515,14 @@ Read port: 63281
 WebDriver BiDi listening on ws://127.0.0.1:63275
 1698160620765	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
 DevTools listening on ws://127.0.0.1:63275/devtools/browser/dc1790dc-8de7-4a6f-8eda-70fa826364e0
+1698161594400	geckodriver	INFO	Listening on 127.0.0.1:56457
+1698161594914	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "56458" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\8185~1\\AppData\\Local\\Temp\\rust_mozprofileFTohhr"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1698161595978	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1698161596125	Marionette	INFO	Listening on port 56463
+WebDriver BiDi listening on ws://127.0.0.1:56458
+Read port: 56463
+1698161596606	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:56458/devtools/browser/f89970f7-949b-4d13-8189-ff1059f1ff75

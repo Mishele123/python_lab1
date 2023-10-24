@@ -32,13 +32,19 @@ def scrapeImages(key: str):
 
     time.sleep(10)
 
-    time.sleep(10)
-
     images_small = driver.find_elements(By.CSS_SELECTOR, "img.serp-item__thumb")
     images_big = driver.find_elements(By.CSS_SELECTOR, "a.serp-item__link")
 
     print(len(images_big))
     print(len(images_small))
+
+    
+    for i in range(0, max_count + 1):
+        # кликаем на большую картинку
+        images_big[i].click()
+
+        img_element = driver.find_element(By.CSS_SELECTOR, ".MMImage-Origin")
+        img_url_big = img_element.get_attribute("src")
 
 
 
@@ -50,6 +56,14 @@ def scrapeImages(key: str):
 def main():
 
     os.makedirs("dataset", exist_ok=True)
+    os.makedirs("dataset/big", exist_ok=True)
+    os.makedirs("dataset/small", exist_ok=True)
+    os.makedirs("dataset/big/tiger", exist_ok=True)
+    os.makedirs("dataset/big/leopard", exist_ok=True)
+    
+    os.makedirs("dataset/small/tiger", exist_ok=True)
+    os.makedirs("dataset/small/leopard", exist_ok=True)
+
     scrapeImages("tiger")
 
 
