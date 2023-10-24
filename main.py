@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 import time
+import os
 import requests
 
 
@@ -17,26 +18,28 @@ def scrapeImages(key: str):
     driver.get(url=url)
 
     downloaded_img_count = 0
+    # скороллинг страницы
     for x in range(int(numbers_of_scrolls)):
         for xx in range(10):
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
-            time.sleep(10)
-        time.sleep(10)
+            time.sleep(2)
+        time.sleep(5)
 
         try:
             driver.find_element("xpath", "/html/body/div[4]/div[2]/div/div[2]/a").click()
         except:
             break
-        
-    images = driver.find_elements(By.CSS_SELECTOR, "img.serp-item__thumb")
+
     time.sleep(10)
-    print(f"Найденно изображений: {len(images)}")
-    
-    for img in images:
-        img_url = img.get_attribute("src")
-        if img_url:
-            print(img_url)
-    
+
+    images_small = driver.find_elements(By.CSS_SELECTOR, "img.serp-item__thumb")
+    images_big = driver.find_elements(By.CSS_SELECTOR, "a.serp-item__link")
+
+    print(len(images_big))
+    print(len(images_small))
+
+
+
     time.sleep(100)
 
     driver.close()
@@ -44,6 +47,7 @@ def scrapeImages(key: str):
 
 def main():
 
+    os.makedirs("dataset", exist_ok=True)
     scrapeImages("tiger")
 
 
