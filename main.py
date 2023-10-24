@@ -4,15 +4,14 @@ from selenium.webdriver.common.by import By
 import time
 import os
 import requests
+from fake_useragent import UserAgent
 
-
-headers = {
-    "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
-}
 
 driver = webdriver.Firefox()
 driver.implicitly_wait(10)
 wait = WebDriverWait(driver, 500)
+ua = UserAgent()
+
 
 def scrapeImages(key: str):
     max_count = 1100
@@ -23,18 +22,18 @@ def scrapeImages(key: str):
 
     downloaded_img_count = 0
     # скороллинг страницы
-    for x in range(int(numbers_of_scrolls)):
-        for xx in range(10):
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
-            time.sleep(2)
-        time.sleep(5)
+    # for x in range(int(numbers_of_scrolls)):
+    #     for xx in range(10):
+    #         driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+    #         time.sleep(2)
+    #     time.sleep(5)
 
-        try:
-            driver.find_element("xpath", "/html/body/div[4]/div[2]/div/div[2]/a").click()
-        except:
-            break
+    #     try:
+    #         driver.find_element("xpath", "/html/body/div[4]/div[2]/div/div[2]/a").click()
+    #     except:
+    #         break
 
-    time.sleep(10)
+    # time.sleep(10)
 
     images_small = driver.find_elements(By.CSS_SELECTOR, "img.serp-item__thumb")
     images_big = driver.find_elements(By.CSS_SELECTOR, "a.serp-item__link")
@@ -46,7 +45,7 @@ def scrapeImages(key: str):
     for i in range(0, max_count + 1):
         # кликаем на большую картинку
         images_big[i].click()
-
+        time.sleep(2)
         img_element = driver.find_element(By.CSS_SELECTOR, ".MMImage-Origin")
         img_url_big = img_element.get_attribute("src")
 
@@ -56,13 +55,17 @@ def scrapeImages(key: str):
         file_name = f"{str(i).rjust(4, '0')}.jpg"
 
         # Скачивание большой картинки
-        img_path_big = os.path.join("dataset/big", file_name)
-        responce_big = requests.get(img_url_big)
+        img_path_big = os.path.join(f"dataset/big/{key}", file_name)
+        responce_big = requests.get(img_url_big, headers={
+            "User-Agent" : ua.random,
+        }, verify=False)
         with open(img_path_big, "wb") as f:
             f.write(responce_big.content)
     
         # Закрыть окно с большим изображением
         driver.find_element(By.CSS_SELECTOR, 'div.MMViewerModal-Close').click()
+
+        print(f"Скачано изображение {i + 1}/{max_count}")
 
     time.sleep(100)
 
