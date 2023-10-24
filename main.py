@@ -6,6 +6,10 @@ import os
 import requests
 
 
+headers = {
+    "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
+}
+
 driver = webdriver.Firefox()
 driver.implicitly_wait(10)
 wait = WebDriverWait(driver, 500)
@@ -46,7 +50,19 @@ def scrapeImages(key: str):
         img_element = driver.find_element(By.CSS_SELECTOR, ".MMImage-Origin")
         img_url_big = img_element.get_attribute("src")
 
+        img_url_small = images_small[i].get_attribute("src")
 
+        # создание имен картинок
+        file_name = f"{str(i).rjust(4, '0')}.jpg"
+
+        # Скачивание большой картинки
+        img_path_big = os.path.join("dataset/big", file_name)
+        responce_big = requests.get(img_url_big)
+        with open(img_path_big, "wb") as f:
+            f.write(responce_big.content)
+    
+        # Закрыть окно с большим изображением
+        driver.find_element(By.CSS_SELECTOR, 'div.MMViewerModal-Close').click()
 
     time.sleep(100)
 
