@@ -16,7 +16,6 @@ ua = UserAgent()
 def scrapeImages(key: str) -> None:
     max_count = 1100
     numbers_of_scrolls = max_count / 300 + 1
-    print(type(numbers_of_scrolls))
     url = f"https://yandex.ru/images/search?text={key}"
     driver.get(url=url)
 
